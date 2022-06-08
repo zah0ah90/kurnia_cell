@@ -1,0 +1,1 @@
+INSERT INTO `barang` (`id`, `nama_barang`, `jenis_barang`, `tipe_barang`, `nama_supplier`, `qty`, `harga_jual`, `harga_modal`, `add_date`, `upd_date`) VALUES (1, 'wkwkk1', 'lcd lg', 'lgc', 'wkw', 1, '2000', '2000', '2022-06-07 11:40:36', '2022-06-07 11:40:39');
