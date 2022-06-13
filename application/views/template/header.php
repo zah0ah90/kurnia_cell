@@ -68,14 +68,14 @@
                 Sparepart
             </div>
             <li class="nav-item">
-                <a class="nav-link" href="<?= base_url('asset/') ?>index.html">
+                <a class="nav-link" href="<?= base_url('barang/index') ?>">
                     <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
                     <i class="fas fa-fw fa-box"></i>
                     <span>Sparepart</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?= base_url('asset/') ?>index.html">
+                <a class="nav-link" href="<?= base_url('barang/history_barang') ?>">
                     <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
                     <i class="fas fa-fw fa-box-open"></i>
                     <span>History Sparepart</span>

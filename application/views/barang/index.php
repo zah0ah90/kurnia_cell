@@ -23,7 +23,7 @@
                         <th>No</th>
                         <th>Nama Sparepart</th>
                         <th>Nama Supplier</th>
-                        <th>QTY</th>
+                        <th>STOK</th>
                         <th>Harga Modal</th>
                         <th>Harga Jual</th>
                         <th>Action</th>
@@ -36,12 +36,14 @@
                         <td><?= $no++ ?></td>
                         <td><?= $data->nama_barang ?></td>
                         <td><?= $data->nama_supplier ?></td>
-                        <td><?= $data->qty ?></td>
+                        <td><?= $data->stok ?></td>
                         <td><?= $data->harga_jual ?></td>
                         <td><?= $data->harga_modal ?></td>
                         <td>
                             <a href="<?= base_url('barang/edit/' . $data->id) ?>"><span
                                     class="btn btn-primary">Edit</span></a>
+                            <a href="<?= base_url('barang/tambah_stok/' . $data->id) ?>" class="btn btn-success">+ /
+                                -</a>
                             <a href="<?= base_url('barang/hapus/' . $data->id) ?>"
                                 class="btn btn-danger tombol-hapus">Hapus</a>
 
