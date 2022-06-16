@@ -6,11 +6,7 @@ class Transaction extends CI_Controller
   function __construct()
   {
     parent::__construct();
-    // check_not_login();
-    // logsis();
-    $this->load->model(['crud_m']);
-    // bukanAkj();
-    // $this->load->library('upload');
+    check_not_login();
   }
 
   public function index()

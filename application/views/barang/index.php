@@ -36,9 +36,16 @@
                         <td><?= $no++ ?></td>
                         <td><?= $data->nama_barang ?></td>
                         <td><?= $data->nama_supplier ?></td>
-                        <td><?= $data->stok ?></td>
-                        <td><?= $data->harga_jual ?></td>
-                        <td><?= $data->harga_modal ?></td>
+                        <td>
+                            <?php if ($data->stok == 0) {
+                                    $stok = 0;
+                                } else {
+                                    $stok = $data->stok;
+                                } ?>
+                            <?= $stok ?>
+                        </td>
+                        <td><?= uang($data->harga_jual) ?></td>
+                        <td><?= uang($data->harga_modal) ?></td>
                         <td>
                             <a href="<?= base_url('barang/edit/' . $data->id) ?>"><span
                                     class="btn btn-primary">Edit</span></a>

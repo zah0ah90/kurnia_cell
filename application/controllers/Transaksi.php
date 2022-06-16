@@ -3,9 +3,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Transaksi extends CI_Controller
 {
+	function __construct()
+	{
+		parent::__construct();
+		check_not_login();
+	}
+
 	public function index()
 	{
-		$this->load->view('transaksi/index');
+		$query = "SELECT nama_barang, stok, id FROM barang join view_stok on barang.id=view_stok.barang_id WHERE stok > 0";
+		$data = [
+			'sparepart' => $this->db->query($query)
+		];
+		$this->load->view('transaksi/index', $data);
 	}
 
 
@@ -35,7 +45,8 @@ class Transaksi extends CI_Controller
 				<td>' . $items['price'] . '</td> 
 				<td>
 				';
-			$CekStokDB = $this->db->select('product_id, stok')->where('product_id', $items['id'])->get('tbl_product_list')->row()->stok;
+			// $CekStokDB = $this->db->select('product_id, stok')->where('product_id', $items['id'])->get('tbl_product_list')->row()->stok;
+			$CekStokDB = $this->db->query("SELECT item_masuk - item_jual - item_keluar as stok,barang_id FROM view_barang_sumary WHERE barang_id=" . $items['id'] . "")->row()->stok;
 
 			$output .= '' . $CekStokDB . ' </td><td>' . $items['subtotal'] . ' </td>   
 		<td><a href="#" data-id="' . $items['rowid'] . '"           
@@ -68,22 +79,24 @@ class Transaksi extends CI_Controller
 	{
 		$post = $this->input->post(null, true);
 		$id = $post['id'];
-		$item = $this->db->select('harga_setelah_diskon, nama, product_id, stok')->where('product_id', $id)->get('tbl_product_list')->row();
+		// $item = $this->db->select('harga_setelah_diskon, nama, product_id, stok')->where('product_id', $id)->get('tbl_product_list')->row();
 		// echo '<pre>';
+		$item = $this->db->query("SELECT nama_barang, harga_jual,id FROM barang WHERE id=" . $id . "")->row();
+		$stok = $this->db->query("SELECT item_masuk - item_jual - item_keluar as stok FROM view_barang_sumary where barang_id=" . $post['id'] . "")->row();
 		$try = $this->cart->contents();
 		// print_r($try);
 		// die();
 		$cekArray = $this->search($try, 'id', $id);
 		// print_r();
-		if ($item->stok == '0') {
+		if ($stok == '0') {
 			echo $this->show_cart() . '<script>alert("Mohon untuk mengecek stok karena stok tersebut 0")</script>';
 		} else {
 			if ($cekArray) {
-				if ($item->stok >  $cekArray[0]['qty']) {
+				if ($stok->stok >  $cekArray[0]['qty']) {
 					$data = array(
-						'id'          => $item->product_id,
-						'price'       => $item->harga_setelah_diskon,
-						'name'        => $item->nama,
+						'id'          => $id,
+						'price'       => $item->harga_jual,
+						'name'        => $item->nama_barang,
 						'qty'         => 1,
 					);
 					$this->cart->insert($data);
@@ -93,9 +106,9 @@ class Transaksi extends CI_Controller
 				}
 			} else {
 				$data = array(
-					'id'          => $item->product_id,
-					'price'       => $item->harga_setelah_diskon,
-					'name'        => $item->nama,
+					'id'          => $item->id,
+					'price'       => $item->harga_jual,
+					'name'        => $item->nama_barang,
 					'qty'         => 1,
 				);
 				$this->cart->insert($data);
@@ -146,49 +159,71 @@ class Transaksi extends CI_Controller
 	function bayar()
 	{
 		$post = $this->input->post(null, true);
-		$cust = $post['cust'];
-		$data = [
-			'nama_pembeli' => $cust,
-			'total_harga' => $this->cart->total()
+		$dataInsert = [
+			'total_harga_jual' => $this->cart->total(),
+			'status_id' => '1',
+			'add_date' => date('Y-m-d H:i:s'),
 		];
-		$this->crud_m->insert_model($table = 'tbl_trx_list', $data);
+		// $this->crud_m->insert_model($table = 'tbl_trx_list', $data);
+		$this->db->insert('transaksi', $dataInsert);
 		$id = $this->db->insert_id();
 		if ($this->db->affected_rows() > 0) {
 			$try = $this->cart->contents();
 			foreach ($try as $key => $items) {
 				$itemQTY = $items['qty'];
 				$itemID = $items['id'];
+				$ngambilBarangID = $this->db->query("SELECT harga_jual, harga_modal FROM barang WHERE id=" . $itemID . "")->row();
 
 				$dataDetailProduct[] = [
-					'trx_id' => $id,
-					'product_id' =>  $itemID,
-					'product_name' =>  $items['name'],
-					'harga_jual' => $items['price'],
-					'total' => $items['subtotal'],
+					'transaksi_id' => $id,
+					'barang_id' =>  $itemID,
+					// 'product_name' =>  $items['name'],
+					'harga_jual_satuan' => $items['price'],
+					'harga_modal_satuan' => $ngambilBarangID->harga_modal,
+					'harga_modal_total' => $ngambilBarangID->harga_modal * $itemQTY,
+					// 'total' => $items['subtotal'],
 					'qty' => $itemQTY,
-					'status' => '1',
-					'addid'           => $this->session->userdata('nama'),
-					'adddate'         => date('Y-m-d H:i:s'),
+					// 'status' => '1',
+					// 'addid'           => $this->session->userdata('nama'),
+					'add_date' => date('Y-m-d H:i:s'),
 				];
 
-				$mencariStok = $this->db->select('product_id, stok')->where('product_id', $itemID)->get('tbl_product_list')->row();
-				// print_r($itemQTY);
-				$menempelkanStokProduct = [
-					'stok' => $mencariStok->stok - $itemQTY
+				$dataBarangKeluar = [
+					'barang_id' => $itemID,
+					'jenis' => 'jual',
+					'qty' => $itemQTY,
+					'add_date' => date('Y-m-d H:i:s'),
+					'note' => 'Sparepart terjual'
 				];
+
+				$this->db->insert('barang_keluar_masuk', $dataBarangKeluar);
+
+				//INSERT STOK
+				// $mencariStok = $this->db->select('product_id, stok')->where('product_id', $itemID)->get('tbl_product_list')->row();
+				// print_r($itemQTY);
+				// $menempelkanStokProduct = [
+				// 'stok' => $mencariStok->stok - $itemQTY
+				// ];
 				// die();
-				$this->crud_m->update_model($table = 'tbl_product_list', $category = 'product_id', $idnya = $itemID, $menempelkanStokProduct);
+				// $this->crud_m->update_model($table = 'tbl_product_list', $category = 'product_id', $idnya = $itemID, $menempelkanStokProduct);
 				// $this->db->where('product_id', $itemID)->update('tbl_product_list', $menempelkanStokProduct);
 			}
 
 
 			foreach ($dataDetailProduct as $item) {
-				$insert_query = $this->db->insert_string('tbl_trx_list_history', $item);
+				$insert_query = $this->db->insert_string('transaksi_detail', $item);
 				$insert_query = str_replace('INSERT INTO', 'INSERT INTO', $insert_query);
 				$this->db->query($insert_query);
 			}
 
 			if ($this->db->affected_rows() > 0) {
+
+				$updateHargaModal = $this->db->query("SELECT SUM(harga_modal_total) as harga FROM transaksi_detail WHERE transaksi_id=" . $id . "")->row();
+				$updateHargaUpdate = [
+					'total_harga_modal' => $updateHargaModal->harga
+				];
+				$this->db->where('id', $id)->update('transaksi', $updateHargaUpdate);
+
 				$this->cart->destroy();
 				$massage['status'] = true;
 				echo json_encode($massage);
@@ -202,32 +237,41 @@ class Transaksi extends CI_Controller
 
 	function listProduct()
 	{
-		$data = $this->db->select('category_id, nama, product_id')->where('category_id', $this->input->post('id'))->get('tbl_product_list')->result();
+		$post = $this->input->post(null, true);
+
+		$stok = $this->db->query("SELECT item_masuk - item_jual - item_keluar as stok FROM view_barang_sumary where barang_id=" . $post['id'] . "")->row();
+		$harga = $this->db->query("SELECT id,harga_jual FROM barang WHERE id=" . $post['id'] . "")->row();
+
 		$output = false;
-		$output .= '<option value="">-- Pilih Product --</option>';
-		foreach ($data as $item) {
-			$output .= '<option value="' . $item->product_id . '">' . $item->nama . '</option>';
-		}
+		$output .= '<div class="form-group">';
+		$output .= '<label for="">STOK</label>';
+		$output .= '<input type="number" class="form-control stok" value="' . $stok->stok . '" readonly>';
+		$output .= '</div"><br>';
+		$output .= '<div class="form-group">';
+		$output .= '<label for="">HARGA</label>';
+		$output .= '<input type="number" class="form-control harga" value="' . $harga->harga_jual . '" readonly>';
+		$output .= '</div">';
 		echo $output;
 	}
 
-	function detailProduct()
+	function laporan()
 	{
-		$data = $this->db->select('harga, discount, nama, product_id')->where('product_id', $this->input->post('id'))->get('tbl_product_list')->row();
-		$output = false;
+		$post = $this->input->post(null, true);
+		$query = false;
+		$query1 = false;
+		$query = "SELECT * FROM transaksi";
+		$query1 = "SELECT SUM(total_harga_jual) as total_harga_jual, SUM(total_harga_modal) as total_harga_modal from transaksi GROUP BY status_id";
 
-		$output .= '
-	  <div class="form-group">
-	  <label for="">Harga</label>
-	  <input type="number" class="form-control" value="' . $data->harga . '" disabled="disabled">
-	  </div>
-	  <div class="form-group">
-	  <label for="">Discount</label>
-	  <input type="number" class="form-control" value="' . $data->discount . '" disabled="disabled">
-	  </div>
-	  
-	  ';
+		if (isset($post['asambit'])) {
+			$query = "SELECT * FROM transaksi WHERE DATE(add_date) BETWEEN '" . $post['tanggalAwal'] . "' AND '" . $post['tanggalAkhir'] . "'";
 
-		echo $output;
+			$query1 = "SELECT SUM(total_harga_jual) as total_harga_jual, SUM(total_harga_modal) as total_harga_modal FROM transaksi WHERE DATE(add_date) BETWEEN '" . $post['tanggalAwal'] . "' AND '" . $post['tanggalAkhir'] . "' ";
+		}
+
+		$data = [
+			'tabel' => $this->db->query($query)->result(),
+			'tabel_total' => $this->db->query($query1)->result()
+		];
+		$this->load->view('transaksi/laporan', $data);
 	}
 }

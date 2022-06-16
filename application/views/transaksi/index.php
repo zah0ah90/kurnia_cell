@@ -11,28 +11,23 @@
         <div class="row" style="height: 500px;">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="">Category Product</label>
-                    <select class="form-control category" name="category">
-                        <option value="">-- Pilih Category --</option>
-                        <?php foreach ($data_category->result() as $data) { ?>
-                        <option value="<?= $data->category_id ?>"><?= $data->nama ?></option>
+                    <label for="">Pilih Sparepart</label>
+                    <select class="form-control sparepart" name="sparepart">
+                        <option value="">-- Pilih Sparepart --</option>
+                        <?php foreach ($sparepart->result() as $data) { ?>
+                        <option value="<?= $data->id ?>"><?= $data->nama_barang ?></option>
                         <?php } ?>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="">Product</label>
-                    <select class="form-control product" name="product">
-                        <option value="">-- Pilih Product --</option>
-                    </select>
-                </div>
+
                 <div class="detailProduct"> </div>
                 <button href="#" class="btn btn-primary pilihAN">Pilih</button>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="">Nama Konsumen</label>
                     <input type="text" class="form-control namaKonsumen">
-                </div>
+                </div> -->
                 <table class="table table-borderless table-hover table-striped w-100">
                     <thead>
                         <tr align="center">
@@ -72,7 +67,7 @@ $(document).ready(function() {
 
     function listdetail_cart() {
         $.ajax({
-            url: "<?= base_url() ?>transaction/showCarts",
+            url: "<?= base_url() ?>transaksi/showCarts",
             method: "POST",
             success: function(data) {
                 $(".resultCart").html(data);
@@ -82,7 +77,7 @@ $(document).ready(function() {
 
     function totalHarga() {
         $.ajax({
-            url: "<?= base_url() ?>transaction/showHarga",
+            url: "<?= base_url() ?>transaksi/showHarga",
             method: "POST",
             success: function(data) {
                 $(".total-harga").html(data);
@@ -90,47 +85,23 @@ $(document).ready(function() {
             },
         });
     }
-    $(document).on("change", ".category", function() {
-        var id = $('.category').val();
+
+    $(document).on("change", ".sparepart", function() {
+        var id = $('.sparepart').val();
         if (id == '') {
-            alert('Mohon untuk memilih Category');
+            alert('Mohon untuk memilih Sparepart');
             $(".detailProduct").html('');
-            $(".product").val('0');
-            // $('.btn').attr('disabled', false);
+            // $(".product").val('0');
+            $('.btn').attr('disabled', false);
         } else {
             $.ajax({
-                url: "<?= base_url() ?>transaction/listProduct",
+                url: "<?= base_url() ?>transaksi/listProduct",
                 method: "POST",
                 data: {
                     id: id,
                 },
                 success: function(data) {
-                    $(".product").html(data);
-                    $(".detailProduct").html('');
-                    // totalHarga()
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert('Terjadi Kesalahan Harap Hubungi Admin');
-                }
-            });
-        }
-    });
-
-
-    $(document).on("change", ".product", function() {
-        var id = $('.product').val();
-        if (id == '') {
-            alert('Mohon untuk memilih Product');
-            $(".detailProduct").html('');
-            // $('.btn').attr('disabled', false);
-        } else {
-            $.ajax({
-                url: "<?= base_url() ?>transaction/detailProduct",
-                method: "POST",
-                data: {
-                    id: id,
-                },
-                success: function(data) {
+                    // $(".product").html(data);
                     $(".detailProduct").html(data);
                     // totalHarga()
                 },
@@ -141,15 +112,40 @@ $(document).ready(function() {
         }
     });
 
+
+    // $(document).on("change", ".product", function() {
+    //     var id = $('.product').val();
+    //     if (id == '') {
+    //         alert('Mohon untuk memilih Product');
+    //         $(".detailProduct").html('');
+    //         // $('.btn').attr('disabled', false);
+    //     } else {
+    //         $.ajax({
+    //             url: "<?= base_url() ?>transaksi/detailProduct",
+    //             method: "POST",
+    //             data: {
+    //                 id: id,
+    //             },
+    //             success: function(data) {
+    //                 $(".detailProduct").html(data);
+    //                 // totalHarga()
+    //             },
+    //             error: function(xhr, ajaxOptions, thrownError) {
+    //                 alert('Terjadi Kesalahan Harap Hubungi Admin');
+    //             }
+    //         });
+    //     }
+    // });
+
     $(document).on("click", ".pilihAN", function() {
-        var id = $('.product').val();
+        var id = $('.sparepart').val();
         $('.btn').attr('disabled', true);
         if (id == '') {
             alert('Mohon untuk memilih Product')
             $('.btn').attr('disabled', false);
         } else {
             $.ajax({
-                url: "<?= base_url() ?>transaction/tambahCart",
+                url: "<?= base_url() ?>transaksi/tambahCart",
                 method: "POST",
                 data: {
                     id: id,
@@ -171,7 +167,7 @@ $(document).ready(function() {
         var id = $(this).data('id');
         $('.btn').attr('disabled', true);
         $.ajax({
-            url: "<?= base_url() ?>transaction/tambahCart",
+            url: "<?= base_url() ?>transaksi/tambahCart",
             method: "POST",
             data: {
                 id: id,
@@ -191,7 +187,7 @@ $(document).ready(function() {
         var id = $(this).data('id');
         $('.btn').attr('disabled', true);
         $.ajax({
-            url: "<?= base_url() ?>transaction/kurangCart",
+            url: "<?= base_url() ?>transaksi/kurangCart",
             method: "POST",
             data: {
                 id: id,
@@ -211,7 +207,7 @@ $(document).ready(function() {
         var id = $(this).data('id');
         $('.btn').attr('disabled', true);
         $.ajax({
-            url: "<?= base_url() ?>transaction/hapusCart",
+            url: "<?= base_url() ?>transaksi/hapusCart",
             method: "POST",
             data: {
                 id: id,
@@ -230,7 +226,7 @@ $(document).ready(function() {
     $(document).on("click", "#btnClear", function() {
         $('.btn').attr('disabled', true);
         $.ajax({
-            url: "<?= base_url() ?>transaction/clear",
+            url: "<?= base_url() ?>transaksi/clear",
             method: "GET",
             success: function(data) {
                 $(".resultCart").html(data);
@@ -238,48 +234,47 @@ $(document).ready(function() {
                 $('.btn').attr('disabled', false);
                 $(".detailProduct").html('');
                 $(".product").html('');
-                $('.namaKonsumen').val('');
+                // $('.namaKonsumen').val('');
             },
         });
     })
 
     $(document).on("click", "#btnBayar", function() {
         $('.btn').attr('disabled', true);
-        var cust = $('.namaKonsumen').val();
+        // var cust = $('.namaKonsumen').val();
         var hargaIN = $('.harga').val();
-        if (cust == '') {
-            alert('mohon untuk mengisi nama customer');
-            $('.btn').attr('disabled', false);
-        } else if (hargaIN == 0) {
+        if (hargaIN == 0) {
             alert('mohon untuk menambahkan product');
             $('.btn').attr('disabled', false);
         } else {
             $.ajax({
-                url: "<?= base_url() ?>transaction/bayar",
+                url: "<?= base_url() ?>transaksi/bayar",
                 method: "POST",
-                data: {
-                    cust: cust
-                },
                 dataType: "json",
                 success: function(data) {
                     if (data.status == true) {
-                        Swal({
-                            type: "success",
-                            title: "Data Berhasil Tersimpan",
+                        Swal.fire(
+                            'Berhasil',
+                            'Data Berhasil Di simpan',
+                            'success'
+                        )
 
-                        });
                         $('.resultCart').html('');
-                        $('.namaKonsumen').val('');
                         totalHarga();
                         $('.btn').attr('disabled', false);
                         $(".detailProduct").html('');
                     }
 
                     if (data.status == false) {
-                        Swal({
-                            type: "warning",
-                            title: "Terjadi Kesalahan harap hubungi admin",
-                        });
+                        // Swal({
+                        //     type: "warning",
+                        //     title: "Terjadi Kesalahan harap hubungi admin",
+                        // });
+                        Swal.fire(
+                            'Tidak Berhasil',
+                            'Terjadi Kesalahan harap hubungi admin',
+                            'warning'
+                        )
                         $('.btn').attr('disabled', false);
                     }
 

@@ -41,22 +41,20 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">KURNAI CELL LOGIN</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" method="post" action="<?= base_url('auth/process') ?>">
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
-                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                            <input type="text" name="user" class="form-control form-control-user"
                                                 placeholder="Username">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                            <input type="password" class="form-control form-control-user" name="pasword"
+                                                placeholder="Password">
                                         </div>
 
-                                        <a href="<?= base_url('asset/') ?>index.html"
-                                            class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a>
 
+
+                                        <button type="submit" name="login"
+                                            class="btn btn-primary btn-user btn-block">Login</button>
 
                                     </form>
 

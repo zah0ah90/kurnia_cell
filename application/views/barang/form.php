@@ -27,10 +27,7 @@
                         <label>Nama Supplier</label>
                         <input type="text" name="nama_supplier" value="<?= $row->nama_supplier ?>" class="form-control">
                     </div>
-                    <div class="form-group">
-                        <label>QTY</label>
-                        <input type="number" name="qty" value="<?= $row->qty ?>" class="form-control">
-                    </div>
+
                     <div class="form-group">
                         <label>Harga Jual</label>
                         <input type="number" name="harga_jual" value="<?= $row->harga_jual ?>" class="form-control">
@@ -58,7 +55,7 @@ $(document).ready(function() {
             harga_jual: {
                 required: true,
                 number: true,
-                minlength: 5,
+                minlength: 4,
             },
             harga_modal: {
                 required: true,

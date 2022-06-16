@@ -4,12 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Barang extends CI_Controller
 {
 
-	// function __construct()
-	// {
-	//     parent::__construct();
-	//     $this->load->model('all_m');
-	//     check_not_login();
-	// }
+	function __construct()
+	{
+		parent::__construct();
+		check_not_login();
+	}
 
 
 	public function index()
@@ -19,9 +18,10 @@ class Barang extends CI_Controller
 		// print_r($test);
 		// die();
 
-		$query = 'SELECT *, (SELECT item_masuk - item_jual - item_keluar as stok FROM view_barang_sumary) as stok FROM barang';
+		$query = 'SELECT *, (SELECT item_masuk - item_jual - item_keluar as stok FROM view_barang_sumary WHERE barang_id=id) as stok FROM barang';
+
 		$data = [
-			'tabel' => $this->db->query($query)->result()
+			'tabel' => $this->db->query($query)->result(),
 		];
 		$this->load->view('barang/index', $data);
 	}
@@ -74,7 +74,7 @@ class Barang extends CI_Controller
 				'add_date' => date('Y-m-d H:i:s')
 			];
 			$upd = [
-				'upd_date' => date('Y-m-d H:i:s')
+				'add_date' => date('Y-m-d H:i:s'),
 			];
 		}
 
