@@ -32,6 +32,7 @@ class Auth extends CI_Controller
 				if ($cekDb) {
 					$params = [
 						'id' => $cekDb->id,
+						'nama' => $cekDb->nama
 					];
 					$this->session->set_userdata($params);
 					redirect('dashboard');
@@ -50,7 +51,9 @@ class Auth extends CI_Controller
 
 	function logout()
 	{
-		$params = ['user_id',];
+		echo 'wowo';
+		$params = ['id', 'nama'];
+		// $params = ['user_id'];
 		$this->session->unset_userdata($params);
 		$this->session->set_flashdata('notif', 'Berhasil Logout!!');
 		redirect('auth');

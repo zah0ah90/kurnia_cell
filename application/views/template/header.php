@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>KURNIA CELL</title>
+    <title>KARUNIA CELL</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?= base_url('asset/') ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -67,6 +67,7 @@
             <div class="sidebar-heading">
                 Sparepart
             </div>
+            <?php if ($this->session->userdata('nama') == 'admin') { ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('barang/index') ?>">
                     <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
@@ -74,6 +75,8 @@
                     <span>Sparepart</span>
                 </a>
             </li>
+            <?php } ?>
+
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('barang/history_barang') ?>">
                     <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
@@ -81,11 +84,12 @@
                     <span>History Sparepart</span>
                 </a>
             </li>
+
             <!-- Heading -->
             <div class="sidebar-heading">
                 Transaksi
             </div>
-
+            <?php if ($this->session->userdata('nama') == 'admin') { ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('transaksi') ?>">
                     <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
@@ -93,6 +97,7 @@
                     <span>Transaksi</span>
                 </a>
             </li>
+            <?php } ?>
 
             <li class="nav-item">
                 <a class="nav-link" href="<?= base_url('transaksi/laporan') ?>">
@@ -101,6 +106,15 @@
                     <span>Laporan Transaksi</span>
                 </a>
             </li>
+            <?php if ($this->session->userdata('nama') == 'pemilik') { ?>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('transaksi/margin') ?>">
+                    <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
+                    <i class="fas fa-fw fa-cart-arrow-down"></i>
+                    <span>Laporan Margin</span>
+                </a>
+            </li>
+            <?php } ?>
 
 
             <!-- Divider -->
@@ -138,7 +152,8 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Profile</span>
+                                <span
+                                    class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('nama') ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="<?= base_url('asset/') ?>img/undraw_profile.svg">
                             </a>

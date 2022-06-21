@@ -9,13 +9,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>KURNIA CELL - Login</title>
+    <title>KARUNIA CELL - Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="<?= base_url('asset/') ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('asset/') ?>css/sb-admin-2.min.css" rel="stylesheet">
@@ -43,18 +41,15 @@
                                     </div>
                                     <form class="user" method="post" action="<?= base_url('auth/process') ?>">
                                         <div class="form-group">
-                                            <input type="text" name="user" class="form-control form-control-user"
-                                                placeholder="Username">
+                                            <input type="text" name="user" class="form-control form-control-user" placeholder="Username">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" name="pasword"
-                                                placeholder="Password">
+                                            <input type="password" class="form-control form-control-user" name="pasword" placeholder="Password">
                                         </div>
 
 
 
-                                        <button type="submit" name="login"
-                                            class="btn btn-primary btn-user btn-block">Login</button>
+                                        <button type="submit" name="login" class="btn btn-primary btn-user btn-block">Login</button>
 
                                     </form>
 

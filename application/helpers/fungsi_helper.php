@@ -23,11 +23,3 @@ function uang($nominal)
     $result =  number_format($nominal, 0, ',', ',');
     return $result;
 }
-
-function memanggilAuth()
-{
-    $ci = &get_instance();
-    $userID = $ci->session->userdata('user_id');
-    $result = $ci->db->where('user_id', $userID)->get('tbl_master_user')->row();
-    return $result;
-}

@@ -74,7 +74,7 @@ class Barang extends CI_Controller
 				'add_date' => date('Y-m-d H:i:s')
 			];
 			$upd = [
-				'add_date' => date('Y-m-d H:i:s'),
+				'upd_date' => date('Y-m-d H:i:s'),
 			];
 		}
 
@@ -104,6 +104,7 @@ class Barang extends CI_Controller
 					'qty' => $post['qty'],
 					'jenis' => $post['jenis'],
 					'note' => $post['note'],
+					'add_date' => date('Y-m-d H:i:s')
 				];
 				$this->db->insert('barang_keluar_masuk', $dataJenis);
 				if ($this->db->affected_rows() > 0) {

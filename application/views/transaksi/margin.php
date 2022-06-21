@@ -4,45 +4,44 @@
 
 
 <!-- Page Heading -->
-<h1 class="h3 mb-4 text-gray-800">Laporan</h1>
+<h1 class="h3 mb-4 text-gray-800">MARGIN</h1>
 
 <div class="card shadow">
     <div class="card-body">
         <a href="#" class="btn btn-primary float-right mb-2" data-toggle="modal" data-target="#exampleModal">Filter</a>
         <div class="table-responsive">
-            <table class="table table-bordered" id="example" width="100%" cellspacing="0">
-                <thead class="text-center">
+
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+
                     <tr>
-                        <th>No</th>
-                        <th>Aksi</th>
+                        <th colspan="3" class="text-center">TOTAL HARGA JUAL DAN TOTAL HARGA MODAL DAN KEUNTUNGAN</th>
+                    </tr>
+                    <tr>
                         <th>Total Harga</th>
                         <th>Total Modal</th>
-                        <th>Tanggal</th>
+                        <th>Total Keuntungan</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if ($tabel) { ?>
-                    <?php $no = 1;
-                        foreach ($tabel as $row) { ?>
+                    <?php if ($tabel_total) { ?>
+                    <?php
+                        foreach ($tabel_total as $row) { ?>
                     <tr>
-                        <td><?= $no++ ?></td>
-                        <td>
-                            <a href="#" data-id='<?= $row->id ?>' class="btn btn-success detail">Detail</a>
-                            <a href="#" data-id='<?= $row->id ?>' class="btn btn-primary print">Print</a>
-                        </td>
+
                         <td><?= $row->total_harga_jual ?></td>
                         <td><?= $row->total_harga_modal ?></td>
-                        <td><?= $row->add_date ?></td>
+                        <td><?= $row->keuntungan ?></td>
+
                     </tr>
                     <?php }
                     } else { ?>
                     <tr>
-                        <td colspan="4" class="text-center">Data tidak ada</td>
+                        <td colspan="2" class="text-center">Data tidak ada</td>
                     </tr>
                     <?php } ?>
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>
@@ -92,60 +91,7 @@ $(document).ready(function() {
     </div>
 </div>
 
-
-<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">DETAIL PENJUALAN</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="detailData"></div>
-
-
-            </div>
-            <div class="modal-footer">
-
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
-$(document).ready(function() {
-    // This WILL work because we are listening on the 'document', 
-    // for a click on an element with an ID of #test-element
-    $(document).on("click", ".detail", function() {
-        var id = $(this).data('id');
-        $('#detailModal').modal('show');
-        // alert(id)
-        $.ajax({
-            url: "<?= base_url() ?>transaksi/detailData",
-            method: "POST",
-            data: {
-                'id': id
-            },
-            success: function(data) {
-                $(".detailData").html(data);
-            },
-        });
-    });
-
-    $(document).on("click", ".print", function() {
-        var id = $(this).data('id');
-        window.open(
-            "<?= base_url('transaksi/printDetail/')  ?>" + id,
-            "_blank"
-        );
-        // alert(id)
-
-    });
-})
-
-
 $(function() {
     $("#forms").validate({
         rules: {

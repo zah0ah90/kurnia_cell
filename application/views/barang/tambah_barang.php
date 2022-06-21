@@ -19,7 +19,8 @@
                     </div>
                     <div class="form-group">
                         <label>STOK</label>
-                        <input type="number" value="<?= $row->stok ?>" name="stok" class="stok form-control" disabled>
+                        <input type="number" value="<?= $row->stok == null ? '0' : $row->stok; ?>" name="stok"
+                            class="stok form-control" disabled>
                     </div>
 
                     <div class="form-group">

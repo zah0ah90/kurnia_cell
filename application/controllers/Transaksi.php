@@ -258,20 +258,51 @@ class Transaksi extends CI_Controller
 	{
 		$post = $this->input->post(null, true);
 		$query = false;
-		$query1 = false;
+
 		$query = "SELECT * FROM transaksi";
-		$query1 = "SELECT SUM(total_harga_jual) as total_harga_jual, SUM(total_harga_modal) as total_harga_modal from transaksi GROUP BY status_id";
+
 
 		if (isset($post['asambit'])) {
 			$query = "SELECT * FROM transaksi WHERE DATE(add_date) BETWEEN '" . $post['tanggalAwal'] . "' AND '" . $post['tanggalAkhir'] . "'";
-
-			$query1 = "SELECT SUM(total_harga_jual) as total_harga_jual, SUM(total_harga_modal) as total_harga_modal FROM transaksi WHERE DATE(add_date) BETWEEN '" . $post['tanggalAwal'] . "' AND '" . $post['tanggalAkhir'] . "' ";
 		}
 
 		$data = [
-			'tabel' => $this->db->query($query)->result(),
-			'tabel_total' => $this->db->query($query1)->result()
+			'tabel' => $this->db->query($query)->result()
+
 		];
 		$this->load->view('transaksi/laporan', $data);
+	}
+
+	function margin()
+	{
+		$post = $this->input->post(null, true);
+
+		$query1 = false;
+
+		$query1 = "SELECT SUM(total_harga_jual) as total_harga_jual, SUM(total_harga_modal) as total_harga_modal, SUM(total_harga_jual) - SUM(total_harga_modal) as keuntungan   from transaksi GROUP BY status_id";
+
+		if (isset($post['asambit'])) {
+
+			$query1 = "SELECT SUM(total_harga_jual) as total_harga_jual, SUM(total_harga_modal) as total_harga_modal, SUM(total_harga_jual) - SUM(total_harga_modal) as keuntungan FROM transaksi WHERE DATE(add_date) BETWEEN '" . $post['tanggalAwal'] . "' AND '" . $post['tanggalAkhir'] . "' ";
+		}
+
+		$data = [
+
+			'tabel_total' => $this->db->query($query1)->result()
+		];
+		$this->load->view('transaksi/margin', $data);
+	}
+
+	function detailData()
+	{
+		$post = $this->input->post(null, true);
+		$this->load->view('transaksi/detail', ['tabel' => $this->db->where('transaksi_id', $post['id'])->join('barang', 'barang.id=transaksi_detail.barang_id')->get('transaksi_detail')->result()]);
+	}
+
+	function printDetail($id)
+	{
+		$query2 = $this->db->where('id', $id)->get('transaksi')->row();
+		$query1 = $this->db->where('transaksi_id', $id)->join('barang', 'barang.id=transaksi_detail.barang_id')->get('transaksi_detail')->result();
+		$this->load->view('transaksi/print', ['detail' => $query1, 'bukanDetail' => $query2]);
 	}
 }
