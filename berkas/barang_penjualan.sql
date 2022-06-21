@@ -1,7 +1,4 @@
-
-
 /*
-21232f297a57a5a743894a0e4a801fc3
  Navicat Premium Data Transfer
 
  Source Server         : localhost1
@@ -14,7 +11,7 @@
  Target Server Version : 50733
  File Encoding         : 65001
 
- Date: 16/06/2022 09:22:37
+ Date: 21/06/2022 14:34:03
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +32,11 @@ CREATE TABLE `barang`  (
   `add_date` datetime NOT NULL,
   `upd_date` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of barang
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for barang_keluar_masuk
@@ -50,7 +51,11 @@ CREATE TABLE `barang_keluar_masuk`  (
   `upd_date` datetime NULL DEFAULT NULL,
   `note` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of barang_keluar_masuk
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for transaksi
@@ -64,7 +69,11 @@ CREATE TABLE `transaksi`  (
   `upd_date` datetime NULL DEFAULT NULL,
   `status_id` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of transaksi
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for transaksi_detail
@@ -81,7 +90,11 @@ CREATE TABLE `transaksi_detail`  (
   `add_date` datetime NULL DEFAULT NULL,
   `upd_date` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of transaksi_detail
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for user
@@ -95,7 +108,13 @@ CREATE TABLE `user`  (
   `add_date` datetime NULL DEFAULT NULL,
   `upd_date` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES (1, 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', NULL, NULL);
+INSERT INTO `user` VALUES (2, 'pemilik', 'pemilik', '58399557dae3c60e23c78606771dfa3d', NULL, NULL);
 
 -- ----------------------------
 -- View structure for view_barang_sumary
