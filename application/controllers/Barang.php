@@ -98,20 +98,27 @@ class Barang extends CI_Controller
 		}
 
 		if ($post['opsi'] == 'stok') {
+			$dataJenis = [
+				'barang_id' => $post['id'],
+				'qty' => $post['qty'],
+				'jenis' => $post['jenis'],
+				'note' => $post['note'],
+				'add_date' => date('Y-m-d H:i:s')
+			];
 			if ($post['jenis'] == 'masuk') {
-				$dataJenis = [
-					'barang_id' => $post['id'],
-					'qty' => $post['qty'],
-					'jenis' => $post['jenis'],
-					'note' => $post['note'],
-					'add_date' => date('Y-m-d H:i:s')
-				];
 				$this->db->insert('barang_keluar_masuk', $dataJenis);
 				if ($this->db->affected_rows() > 0) {
 					$this->session->set_flashdata('success', 'Berhasil di Edit');
 				}
-			} else if ($post['jenis'] == 'keluar' && $post['qty'] < $post['stok']) {
-				$this->session->set_flashdata('success', 'QTY tidak boleh melebihi STOK');
+			} else if ($post['jenis'] == 'keluar') {
+				if ($post['qty'] > $post['stok']) {
+					$this->session->set_flashdata('success', 'QTY tidak boleh melebihi STOK');
+				} else {
+					$this->db->insert('barang_keluar_masuk', $dataJenis);
+					if ($this->db->affected_rows() > 0) {
+						$this->session->set_flashdata('success', 'Berhasil di Edit');
+					}
+				}
 			}
 		}
 
