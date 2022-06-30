@@ -14,13 +14,11 @@
 
                     <div class="form-group">
                         <label>Nama Sparepart</label>
-                        <input type="text" name="nama_barang" value="<?= $row->nama_barang ?>" class="form-control"
-                            disabled>
+                        <input type="text" name="nama_barang" value="<?= $row->nama_barang ?>" class="form-control" disabled>
                     </div>
                     <div class="form-group">
                         <label>STOK</label>
-                        <input type="number" value="<?= $row->stok == null ? '0' : $row->stok; ?>" name="stok"
-                            class="stok form-control" disabled>
+                        <input type="number" value="<?= $row->stok == null ? '0' : $row->stok; ?>" name="stok" class="stok form-control" readonly>
                     </div>
 
                     <div class="form-group">
@@ -53,20 +51,20 @@
 </div>
 
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
 
 
 
-    $('#myForm').validate({ // initialize the plugin
-        rules: {
-            qty: {
-                required: true,
-                number: true,
-            },
-        }
+        $('#myForm').validate({ // initialize the plugin
+            rules: {
+                qty: {
+                    required: true,
+                    number: true,
+                },
+            }
+        });
+
     });
-
-});
 </script>
 
 

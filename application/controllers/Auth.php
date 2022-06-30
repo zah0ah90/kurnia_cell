@@ -35,6 +35,7 @@ class Auth extends CI_Controller
 						'nama' => $cekDb->nama
 					];
 					$this->session->set_userdata($params);
+					$this->session->set_flashdata('notif', 'Login Berhasil ');
 					redirect('dashboard');
 				} else {
 					// jika tidak ada username

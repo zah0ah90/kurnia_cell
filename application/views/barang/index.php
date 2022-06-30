@@ -72,7 +72,7 @@
 
             Swal.fire({
                 title: 'Apakah anda yakin?',
-                text: "Data Obat akan dihapus!",
+                text: "Data Sparepart akan dihapus!",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -87,11 +87,10 @@
 
         const flashData = $('.flash-data').data('flashdata');
         if (flashData) {
-            Swal.fire({
-                title: 'Data Spare Part',
-                text: flashData,
-                type: 'success'
-            })
+            Swal.fire(
+                flashData, '',
+                'success'
+            )
         }
 
     });

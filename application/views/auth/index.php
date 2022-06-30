@@ -17,11 +17,13 @@
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('asset/') ?>css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <link href="<?= base_url('asset/') ?>js/sweetalert2.min.css" rel="stylesheet">
 
 </head>
 
 <body class="bg-gradient-primary">
-
+    <div class="flash-data" data-flashdata="<?= $this->session->flashdata('notif'); ?>"></div>
     <div class="container">
 
         <!-- Outer Row -->
@@ -74,6 +76,16 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url('asset/') ?>js/sb-admin-2.min.js"></script>
+    <script src="<?= base_url('asset/') ?>js/sweetalert2.all.min.js"></script>
+    <script>
+        const flashData = $('.flash-data').data('flashdata');
+        if (flashData) {
+            Swal.fire(
+                flashData, '',
+                'success'
+            )
+        }
+    </script>
 
 </body>
 

@@ -11,7 +11,7 @@
         <a href="#" class="btn btn-primary float-right mb-2" data-toggle="modal" data-target="#exampleModal">Filter</a>
         <div class="table-responsive">
 
-            <table class="table table-bordered" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="example" width="100%" cellspacing="0">
                 <thead>
 
                     <tr>
@@ -25,20 +25,20 @@
                 </thead>
                 <tbody>
                     <?php if ($tabel_total) { ?>
-                    <?php
+                        <?php
                         foreach ($tabel_total as $row) { ?>
-                    <tr>
+                            <tr>
 
-                        <td><?= $row->total_harga_jual ?></td>
-                        <td><?= $row->total_harga_modal ?></td>
-                        <td><?= $row->keuntungan ?></td>
+                                <td><?= $row->total_harga_jual ?></td>
+                                <td><?= $row->total_harga_modal ?></td>
+                                <td><?= $row->keuntungan ?></td>
 
-                    </tr>
-                    <?php }
+                            </tr>
+                        <?php }
                     } else { ?>
-                    <tr>
-                        <td colspan="2" class="text-center">Data tidak ada</td>
-                    </tr>
+                        <tr>
+                            <td colspan="3" class="text-center">Data tidak ada</td>
+                        </tr>
                     <?php } ?>
                 </tbody>
             </table>
@@ -47,9 +47,14 @@
 </div>
 
 <script>
-$(document).ready(function() {
-    $('#example').DataTable();
-})
+    $(document).ready(function() {
+        $('#example').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'print'
+            ]
+        });
+    })
 </script>
 
 
@@ -75,8 +80,7 @@ $(document).ready(function() {
                         <input type="date" name="tanggalAkhir" class="form-control">
                         <div class="invalid-feedback"></div>
                     </div>
-                    <input type="submit" name="asambit" value="FILTER" onclick="sambit()"
-                        class="btn btn-primary text-white float-right">
+                    <input type="submit" name="asambit" value="FILTER" onclick="sambit()" class="btn btn-primary text-white float-right">
 
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
@@ -92,28 +96,28 @@ $(document).ready(function() {
 </div>
 
 <script>
-$(function() {
-    $("#forms").validate({
-        rules: {
-            tanggalAwal: {
-                required: true,
+    $(function() {
+        $("#forms").validate({
+            rules: {
+                tanggalAwal: {
+                    required: true,
+                },
+                tanggalAkhir: {
+                    required: true,
+                },
+                action: "required"
             },
-            tanggalAkhir: {
-                required: true,
-            },
-            action: "required"
-        },
-        messages: {
-            tanggalAwal: {
-                required: "Mohon untuk memilih",
-            },
-            tanggalAkhir: {
-                required: "Mohon untuk memilih",
-            },
-            action: "Please provide some data"
-        }
+            messages: {
+                tanggalAwal: {
+                    required: "Mohon untuk memilih",
+                },
+                tanggalAkhir: {
+                    required: "Mohon untuk memilih",
+                },
+                action: "Please provide some data"
+            }
+        });
     });
-});
 </script>
 
 <?php $this->load->view('template/footer.php'); ?>
