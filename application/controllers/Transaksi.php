@@ -295,8 +295,8 @@ class Transaksi extends CI_Controller
 
 	function detailData()
 	{
-		$post = $this->input->post(null, true);
-		$this->load->view('transaksi/detail', ['tabel' => $this->db->where('transaksi_id', $post['id'])->join('barang', 'barang.id=transaksi_detail.barang_id')->get('transaksi_detail')->result()]);
+		$post = $this->input->post(null, true);	
+		$this->load->view('transaksi/detail', ['tabel' => $this->db->select('transaksi_detail.add_date,transaksi_detail.harga_jual_satuan,transaksi_detail.harga_modal_satuan,transaksi_detail.qty,barang.id, barang.nama_barang')->join('barang', 'barang.id=transaksi_detail.barang_id')->get('transaksi_detail')->result()]);
 	}
 
 	function printDetail($id)
