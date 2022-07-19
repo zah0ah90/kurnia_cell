@@ -40,7 +40,7 @@
 
 
                     <button type="submit" class="float-right btn btn-success text-white">Simpan</button>
-                    <button type="reset" class="float-right btn btn-primary text-white mr-2">Reset</button>
+                    <a href="<?= base_url('barang') ?>" class="float-right btn btn-primary text-white mr-2">Kembali</a>
                 </form>
             </div>
         </div>
@@ -48,37 +48,37 @@
 </div>
 
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
 
-    $('#myForm').validate({ // initialize the plugin
-        rules: {
-            harga_jual: {
-                required: true,
-                number: true,
-                minlength: 4,
-            },
-            harga_modal: {
-                required: true,
-                number: true,
-                // minlength: 5,
-            },
-            nama_barang: {
-                required: true,
-            },
-            nama_supplier: {
-                required: true,
-            },
-            jenis_barang: {
-                required: true,
-            },
-            tipe_barang: {
-                required: true,
-            },
+        $('#myForm').validate({ // initialize the plugin
+            rules: {
+                harga_jual: {
+                    required: true,
+                    number: true,
+                    minlength: 4,
+                },
+                harga_modal: {
+                    required: true,
+                    number: true,
+                    // minlength: 5,
+                },
+                nama_barang: {
+                    required: true,
+                },
+                nama_supplier: {
+                    required: true,
+                },
+                jenis_barang: {
+                    required: true,
+                },
+                tipe_barang: {
+                    required: true,
+                },
 
-        }
+            }
+        });
+
     });
-
-});
 </script>
 
 
