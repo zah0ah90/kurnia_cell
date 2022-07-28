@@ -13,7 +13,9 @@
 
     <!-- Custom fonts for this template-->
     <link href="<?= base_url('asset/') ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('asset/') ?>css/sb-admin-2.min.css" rel="stylesheet">
@@ -27,11 +29,11 @@
 
 <body id="page-top">
     <style>
-        .error {
-            font-size: 14px !important;
-            width: 100% !important;
-            color: red;
-        }
+    .error {
+        font-size: 14px !important;
+        width: 100% !important;
+        color: red;
+    }
     </style>
 
     <!-- Page Wrapper -->
@@ -41,7 +43,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('asset/') ?>index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url() ?>">
                 <div class="sidebar-brand-icon ">
                     <i class="fas fa-toolbox"></i>
                 </div>
@@ -104,13 +106,13 @@
                 </a>
             </li>
             <?php if ($this->session->userdata('nama') == 'pemilik') { ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= base_url('transaksi/margin') ?>">
-                        <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
-                        <i class="fas fa-fw fa-cart-arrow-down"></i>
-                        <span>Laporan Margin</span>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url('transaksi/margin') ?>">
+                    <!-- <i class="fas fa-fw fa-tachometer-alt"></i> -->
+                    <i class="fas fa-fw fa-cart-arrow-down"></i>
+                    <span>Laporan Margin</span>
+                </a>
+            </li>
             <?php } ?>
 
 
@@ -147,12 +149,16 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('nama') ?></span>
-                                <img class="img-profile rounded-circle" src="<?= base_url('asset/') ?>img/undraw_profile.svg">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span
+                                    class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $this->session->userdata('nama') ?></span>
+                                <img class="img-profile rounded-circle"
+                                    src="<?= base_url('asset/') ?>img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
